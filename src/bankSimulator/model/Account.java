@@ -1,10 +1,12 @@
 package bankSimulator.model;
+import bankSimulator.model.DataHandler;
 public class Account {
 
     //basic private values for accounts
     private double balance = 1000;
     private String accountType;
     private int accountID;
+
 
     //public constructor class
     public Account(int accountType, int accountID) {
@@ -17,6 +19,7 @@ public class Account {
         balance -= withdrawAmount;
         return balance;
     }
+
     //basic method for account type print
     public String checkAccountType() {
         return this.accountType;
@@ -30,6 +33,7 @@ public class Account {
     public double checkBalance() {
         return balance;
     }
+
 
     //public method to deposit money into an account from liquid cash
     public double deposit(double depositAmount) {

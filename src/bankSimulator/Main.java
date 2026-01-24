@@ -1,55 +1,83 @@
-    package bankSimulator;
-    import java.util.Scanner;
-    import bankSimulator.model.Account; // import the Account class correctly\
-    import bankSimulator.model.User;
-    import java.util.ArrayList;
-    import java.util.Random;
-    import bankSimulator.model.DataHandler;
-    public class Main {
+package bankSimulator;
 
-        public static void main(String[] args) {
-            // App entry point
-            DataHandler handler = new DataHandler();
-            handler.writeData();
-            System.out.println("File location: " + new java.io.File("users.txt").getAbsolutePath());
-            Scanner userInput = new Scanner(System.in);
-            Random rand = new Random();
-            boolean accountCreated = false;
-            String username = "";
-            String password = "";
-            System.out.println("Choose your username to create an account:");
-            username = userInput.nextLine();
-            //Ask for user input for account creation
-            while (!accountCreated) {
-                System.out.println("Choose your password:");
-                password = userInput.nextLine();
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.geometry.Pos;
 
-                System.out.println("Confirm your password:");
-                String passwordConfirm = userInput.nextLine();
-                if (password.equals(passwordConfirm)) {
-                    accountCreated = true;
-                    password = passwordConfirm;
-                    break;
-                }
-                else {
-                    System.out.println("Password did not match, please try again");
-                }
+import java.util.Random;
+import java.util.ArrayList;
+
+import bankSimulator.model.Account;
+import bankSimulator.model.User;
+
+public class Main extends Application {
+
+    private User currentUser;
+    private Random rand = new Random();
+
+    @Override
+    public void start(Stage stage) {
+        stage.setTitle("Banking Simulator");
+
+        // Username & password input
+        Label lblUser = new Label("Enter username:");
+        TextField tfUser = new TextField();
+        Label lblPass = new Label("Enter password:");
+        PasswordField pfPass = new PasswordField();
+        Label lblConfirm = new Label("Confirm password:");
+        PasswordField pfConfirm = new PasswordField();
+        Label lblMsg = new Label();
+        Button btnCreate = new Button("Create Account");
+        VBox root = new VBox(10, lblUser, tfUser, lblPass, pfPass, lblConfirm, pfConfirm, btnCreate, lblMsg);
+        root.setAlignment(Pos.CENTER);
+
+        btnCreate.setOnAction(e -> {
+            System.out.println("Button press");
+            String username = tfUser.getText();
+            String password = pfPass.getText();
+            String confirm = pfConfirm.getText();
+
+            if (!password.equals(confirm)) {
+                lblMsg.setText("Passwords do not match!");
+                return;
             }
-            System.out.println("Account successfully created! \n\n");
-            User newUser = new User(username, password);
-            System.out.println("Please choose account type to create by entering its corresponding value: \n(1) - Checking \n(2) - Savings");
-            int accountType = userInput.nextInt();
-            userInput.nextLine();
-            System.out.println("Choose a preferred name for your account: ");
-            int accountID = rand.nextInt(10000);
-            Account newAccount = new Account(accountType, accountID);
-            String accountInfo = newAccount.checkAccountInfo();
-            newUser.addAccount(newAccount);
-            ArrayList<String> userAccounts = newUser.listAccount();
-            for (String account : userAccounts) {
-                System.out.println(account);
-            }
-            System.out.println(accountInfo);
-            userInput.close();
-        }
+
+            currentUser = new User(username, password);
+            lblMsg.setText("Account created!");
+            showAccountType(stage);
+        });
+
+        Scene scene = new Scene(root, 700, 500);
+        stage.setScene(scene);
+        stage.show();
     }
+
+    private void showAccountType(Stage stage) {
+        Label lblType = new Label("Select account type:");
+        Button btnChecking = new Button("Checking");
+        Button btnSavings = new Button("Savings");
+        Label lblMsg = new Label();
+
+        VBox root = new VBox(10, lblType, btnChecking, btnSavings, lblMsg);
+        root.setAlignment(Pos.CENTER);
+
+        btnChecking.setOnAction(e -> createAccount(1, lblMsg));
+        btnSavings.setOnAction(e -> createAccount(2, lblMsg));
+
+        stage.setScene(new Scene(root, 700, 500));
+    }
+
+    private void createAccount(int type, Label lblMsg) {
+        int id = rand.nextInt(10000);
+        Account acc = new Account(type, id);
+        currentUser.addAccount(acc);
+        lblMsg.setText("Account created! ID: " + id + "\n" + acc.checkAccountInfo());
+    }
+
+    public static void main(String[] args) {
+        launch(args); // clean JavaFX entry
+    }
+}
