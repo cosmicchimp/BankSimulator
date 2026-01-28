@@ -1,5 +1,5 @@
 package bankSimulator.model;
-import bankSimulator.model.DataHandler;
+
 public class Account {
 
     //basic private values for accounts

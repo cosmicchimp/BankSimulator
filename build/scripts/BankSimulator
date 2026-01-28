@@ -114,7 +114,7 @@ case "$( uname )" in                #(
   NONSTOP* )        nonstop=true ;;
 esac
 
-CLASSPATH=$APP_HOME/lib/BankSimulator.jar:$APP_HOME/lib/javafx-controls-23-win.jar:$APP_HOME/lib/javafx-graphics-23-win.jar:$APP_HOME/lib/javafx-base-23-win.jar
+CLASSPATH=$APP_HOME/lib/BankSimulator.jar:$APP_HOME/lib/javafx-controls-19-win.jar:$APP_HOME/lib/javafx-graphics-19-win.jar:$APP_HOME/lib/javafx-graphics-19.jar:$APP_HOME/lib/javafx-base-19-win.jar:$APP_HOME/lib/javafx-base-19.jar
 
 
 # Determine the Java command to use to start the JVM.
@@ -212,7 +212,7 @@ DEFAULT_JVM_OPTS=""
 
 set -- \
         -classpath "$CLASSPATH" \
-        BankApp \
+        bankSimulator.Main \
         "$@"
 
 # Stop when "xargs" is not available.

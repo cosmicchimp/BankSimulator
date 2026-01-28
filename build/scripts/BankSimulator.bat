@@ -70,11 +70,11 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\BankSimulator.jar;%APP_HOME%\lib\javafx-controls-23-win.jar;%APP_HOME%\lib\javafx-graphics-23-win.jar;%APP_HOME%\lib\javafx-base-23-win.jar
+set CLASSPATH=%APP_HOME%\lib\BankSimulator.jar;%APP_HOME%\lib\javafx-controls-19-win.jar;%APP_HOME%\lib\javafx-graphics-19-win.jar;%APP_HOME%\lib\javafx-graphics-19.jar;%APP_HOME%\lib\javafx-base-19-win.jar;%APP_HOME%\lib\javafx-base-19.jar
 
 
 @rem Execute BankSimulator
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %BANK_SIMULATOR_OPTS%  -classpath "%CLASSPATH%" BankApp %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %BANK_SIMULATOR_OPTS%  -classpath "%CLASSPATH%" bankSimulator.Main %*
 
 :end
 @rem End local scope for the variables with windows NT shell

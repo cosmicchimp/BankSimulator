@@ -36,7 +36,6 @@ public class User {
     }
     //Method for user to signout
     public void signOut() {
-
     }
 }
 

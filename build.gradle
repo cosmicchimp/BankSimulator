@@ -1,32 +1,57 @@
-    plugins {
-        id 'application'
-        id 'org.openjfx.javafxplugin' version '0.1.0'
-    }
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.14'
+}
 
-    repositories {
-        mavenCentral()
-    }
+repositories {
+    mavenCentral()
+}
 
-    javafx {
-        version = "23"  // Updated to a newer version compatible with JDK 24
-        modules = ['javafx.controls']
-    }
-    sourceSets {
-        main {
-            java {
-                srcDirs = ['src']
-            }
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+javafx {
+    version = "19"
+    modules = ['javafx.controls'] // add 'javafx.fxml' if using FXML
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
         }
     }
-    application {
-        mainClass = 'BankApp'  // Changed from 'Main' to 'BankApp'
+    test {
+        java {
+            srcDirs = ['test']
+        }
     }
-    tasks.named('run') {
-        standardInput = System.in
+}
 
-        // Suppress JavaFX warnings
-        jvmArgs = [
-                '--add-opens', 'javafx.graphics/com.sun.glass.utils=ALL-UNNAMED',
-                '--add-opens', 'javafx.graphics/com.sun.marlin=ALL-UNNAMED'
-        ]
+application {
+    mainClass = 'bankSimulator.Main'
+}
+
+tasks.named('run') {
+    standardInput = System.in
+    jvmArgs = [
+            '--add-opens', 'javafx.graphics/com.sun.glass.utils=ALL-UNNAMED',
+            '--add-opens', 'javafx.graphics/com.sun.marlin=ALL-UNNAMED'
+    ]
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = false
     }
+}
