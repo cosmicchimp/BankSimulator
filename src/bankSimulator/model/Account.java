@@ -24,11 +24,14 @@ public class Account {
     public String checkAccountType() {
         return this.accountType;
     }
+
     //public method to check specific account info, such as balance, and account type
     public String checkAccountInfo() {
-        return "The accound, ID: " + this.accountID + ", currently has a balance of " + balance + " it is a " + accountType + " account.";
+        return "The account, ID: " + this.accountID + ", currently has a balance of " + balance + " it is a " + accountType + " account.";
     }
-
+    public int checkID() {
+        return this.accountID;
+    }
     //public method to just check the balance of an account
     public double checkBalance() {
         return balance;

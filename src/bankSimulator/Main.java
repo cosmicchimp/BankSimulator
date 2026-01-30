@@ -11,13 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import bankSimulator.model.Account;
 import bankSimulator.model.User;
-
+import bankSimulator.service.DataHandler;
 /**
  * Main application class for the Banking Simulator.
  * Handles the JavaFX UI and navigation between different screens.
  */
 public class Main extends Application {
-
+    //Init of database and its tables
+    DataHandler dataHandler = new DataHandler();
+    dataHandler.initDatabase();
     // ========================================
     // INSTANCE VARIABLES
     // ========================================
