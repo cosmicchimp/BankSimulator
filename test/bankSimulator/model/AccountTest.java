@@ -13,8 +13,8 @@ public class AccountTest {
     @BeforeEach
     public void setUp() {
         // This runs before EACH test
-        account = new Account(1, 1234);
         user = new User("john", "abc");
+        account = new Account(1,1234, "john");
     };
 
     @Test
@@ -39,6 +39,8 @@ public class AccountTest {
         user.addAccount(account);
         ArrayList<String> accounts = user.listAccount();
         assertEquals("The account, ID: 1234, currently has a balance of 1000.0 it is a Checking account.", accounts.get(0));
+
+
     }
 
 

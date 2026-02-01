@@ -19,7 +19,6 @@ import bankSimulator.service.DataHandler;
 public class Main extends Application {
     //Init of database and its tables
     DataHandler dataHandler = new DataHandler();
-    dataHandler.initDatabase();
     // ========================================
     // INSTANCE VARIABLES
     // ========================================
@@ -43,6 +42,8 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) {
+        System.out.println("Initializing database");
+        dataHandler.initDatabase();
         stage.setTitle("Banking Simulator");
         System.out.println(">>>>> APPLICATION STARTED - SHOWING CREATE USER SCREEN <<<<<");
         showCreateFirstUser(stage);
@@ -92,23 +93,7 @@ public class Main extends Application {
 
         // Handle "Create First User" button click
         btnCheck.setOnAction(e -> {
-            userExists.setText("");
-            String username = tfUser.getText().trim();
-            DataHandler dataHandler = new DataHandler("C:\\Users\\maxla\\Desktop\\BankSimulator\\users.txt");
-            String[] userInfo = dataHandler.findUser(username);
-            if ((userInfo != null)) {
-                userExists.setStyle("-fx-text-fill: red;");
-                userExists.setText("Username already taken");
-                System.out.println("USER INFO FOUND:");
-                System.out.println(userInfo[0] + userInfo[1]);
-            }
-            else {
-                userExists.setStyle("-fx-text-fill: green;");
-                System.out.println("User not found");
-                userExists.setText("Username hasn't been taken");
-            }
-
-        });
+            System.out.println("Blank button event");});
         btnCreate.setOnAction(e -> {
             String username = tfUser.getText().trim();
             String password = pfPass.getText();

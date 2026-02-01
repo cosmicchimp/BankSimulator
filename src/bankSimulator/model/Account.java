@@ -3,15 +3,18 @@ package bankSimulator.model;
 public class Account {
 
     //basic private values for accounts
+    private String owner = "";
     private double balance = 1000;
     private String accountType;
     private int accountID;
 
 
     //public constructor class
-    public Account(int accountType, int accountID) {
+    public Account(int accountID, String accountType, double balance, String owner) {
         this.accountID = accountID;
-        this.accountType = (accountType == 1) ? "Checking": "Savings";
+        this.accountType = accountType;
+        this.owner = owner;
+        this.balance = balance;
     }
 
     //public method to withdraw amounts from an account and move it to the user liquid balance
@@ -37,7 +40,9 @@ public class Account {
         return balance;
     }
 
-
+    public String checkOwner() {
+        return this.owner;
+    }
     //public method to deposit money into an account from liquid cash
     public double deposit(double depositAmount) {
         this.balance += depositAmount;

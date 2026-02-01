@@ -14,6 +14,7 @@ public class DataHandler {
     public void initDatabase() {
         try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db")) {
             Statement stmt = conn.createStatement();
+            stmt.execute("PRAGMA foreign_keys = ON");
             //Initializing the create user table
 
             String createUserTable = """
@@ -29,7 +30,7 @@ public class DataHandler {
             //Now we will initialize the account table
             String createAccountTable = """
                     CREATE TABLE IF NOT EXISTS accounts (
-                    accountID INTEGER PRIMARY KEY,
+                    accountID INTEGER PRIMARY KEY AUTOINCREMENT,
                     accountType TEXT NOT NULL,
                     balance REAL DEFAULT 1000,
                     owner TEXT NOT NULL,
@@ -41,13 +42,13 @@ public class DataHandler {
             //Initializing the transaction history table
             String createTransactionTable = """
                     CREATE TABLE IF NOT EXISTS transaction_history (
-                    transactionID INTEGER PRIMARY KEY,
+                    transactionID INTEGER PRIMARY KEY AUTOINCREMENT,
                     amountTransferred REAL NOT NULL,
                     sendingAccount INTEGER NOT NULL,
                     receivingAccount INTEGER NOT NULL,
+                    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (sendingAccount) REFERENCES accounts(accountID),
-                    FOREIGN KEY (receivingAccount) REFERENCES accounts(accountID),
-                    date TEXT NOT NULL
+                    FOREIGN KEY (receivingAccount) REFERENCES accounts(accountID)
                     )
                     """;
             stmt.execute(createTransactionTable);
@@ -56,50 +57,29 @@ public class DataHandler {
             e.printStackTrace();
         }
     }
-    //Public method used to write username and password to the path of choice
-    public void writeUser(String user, String password) {
-        String filePath = "users.txt";
-        System.out.println(">>>>> Writing to: " + filePath + " <<<<<");
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
-            writer.println(user + "," + password);
-            System.out.println(">>>>> FILE WRITTEN <<<<<");
-        } catch (IOException e) {
+    public void insertAccount(Account account) {
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db")) {
+            String sql = "INSERT INTO accounts (accountID, accountType, balance, owner) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1,String.valueOf(account.checkID()));
+            stmt.setString(2,String.valueOf(account.checkAccountType()));
+            stmt.setString(3,String.valueOf(account.checkBalance()));
+            stmt.setString(4,account.checkOwner());
+            int rowsAffected = stmt.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+        }
+
+        catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error writing to file: >>>>>>\n" + e);
         }
     }
 
-    //Public method used to find a user and its corresponding data in a file
-    // based on username
+    public void insertUser (String username, String password) {
 
-    public String[] findUser(String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] splitLine = line.split(",");
-                String currentUser = splitLine[0];
-                if (currentUser.equals(username)) {
-                    String[] userInfo = {splitLine[0], splitLine[1]};
-                    return userInfo;
-                }
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error reading file: >>>>>>\n" + e);
-        }
-        return null;
     }
-
-    //Method to write an account to file once it has been created
-    public void writeAccount(Account accountInfo) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(path))) {
-            writer.println("Hello");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error writing account to file: >>>>>>>> \n" + e);
-        }
+    public ArrayList<Account> pullAccounts(String username) {
+        ArrayList<String> accounts
+        return accounts;
     }
 
 }

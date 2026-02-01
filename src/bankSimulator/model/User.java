@@ -1,24 +1,19 @@
 
 package bankSimulator.model;
 import java.util.ArrayList;
-import bankSimulator.exceptions.AccountException;
-import bankSimulator.service.BankManager;
-import java.sql.*;
 
-
-import bankSimulator.model.Account; // import the Account class correctly
 public class User {
     //Basic user values
     private String username;
     private String password;
     private double liquidCash;
-    BankManager bankManager = new BankManager();
     //Array list that holds all of the users accounts, adhering to the account type
     ArrayList<Account> accounts = new ArrayList<>();
-    public User(String Username, String Password) {
+    public User(String Username, String Password, double liquidCash) {
         this.username = Username;
         this.password = Password;
-    };
+        this.liquidCash = liquidCash;
+    }
     //Method to add an account to the array list of accounts
     public String addAccount(Account accountToAdd) {
         accounts.add(accountToAdd);
@@ -41,20 +36,20 @@ public class User {
     }
 
     //Method to send money to a user
-    public void sendMoney(int userID, double amount, int sendingAccountID, int receivingAccountID) throws AccountException {
-        Account sendingAccount = bankManager.findAccount(sendingAccountID);
-        Account receivingAccount = bankManager.findAccount(receivingAccountID);
-        if ((sendingAccount == null) || (receivingAccount == null)) {
-            System.out.println("One or more account does not exist");
-            throw new AccountException("One or more accounts does not exist");
-        }
-        if ((amount > sendingAccount.getBalance())) {
-            System.out.println("Insufficient balance");
-            throw new AccountException("Insufficient balance");
-        }
-
-
-    }
+//    public void sendMoney(int userID, double amount, int sendingAccountID, int receivingAccountID) throws AccountException {
+//        Account sendingAccount = bankManager.findAccount(sendingAccountID);
+//        Account receivingAccount = bankManager.findAccount(receivingAccountID);
+//        if ((sendingAccount == null) || (receivingAccount == null)) {
+//            System.out.println("One or more account does not exist");
+//            throw new AccountException("One or more accounts does not exist");
+//        }
+//        if ((amount > sendingAccount.getBalance())) {
+//            System.out.println("Insufficient balance");
+//            throw new AccountException("Insufficient balance");
+//        }
+//
+//
+//    }
 
     //Method for user to signout
     public void signOut() {
