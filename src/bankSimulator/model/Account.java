@@ -10,8 +10,7 @@ public class Account {
 
 
     //public constructor class
-    public Account(int accountID, String accountType, double balance, String owner) {
-        this.accountID = accountID;
+    public Account(String accountType, double balance, String owner) {
         this.accountType = accountType;
         this.owner = owner;
         this.balance = balance;

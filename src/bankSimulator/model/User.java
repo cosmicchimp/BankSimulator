@@ -35,25 +35,15 @@ public class User {
         return this.liquidCash;
     }
 
-    //Method to send money to a user
-//    public void sendMoney(int userID, double amount, int sendingAccountID, int receivingAccountID) throws AccountException {
-//        Account sendingAccount = bankManager.findAccount(sendingAccountID);
-//        Account receivingAccount = bankManager.findAccount(receivingAccountID);
-//        if ((sendingAccount == null) || (receivingAccount == null)) {
-//            System.out.println("One or more account does not exist");
-//            throw new AccountException("One or more accounts does not exist");
-//        }
-//        if ((amount > sendingAccount.getBalance())) {
-//            System.out.println("Insufficient balance");
-//            throw new AccountException("Insufficient balance");
-//        }
-//
-//
-//    }
-
-    //Method for user to signout
-    public void signOut() {
-
+    public String getUsername() {
+        return this.username;
     }
+    public String getPassword() {
+        return this.password;
+    }
+    public double getLiquidCash() {
+        return this.liquidCash;
+    }
+
 }
 

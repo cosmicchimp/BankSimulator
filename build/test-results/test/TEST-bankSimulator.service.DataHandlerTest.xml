@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bankSimulator.service.DataHandlerTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-02-04T07:50:58.104Z" hostname="DESKTOP-3AV4PDD" time="0.142">
+  <properties/>
+  <testcase name="Testing user find function" classname="bankSimulator.service.DataHandlerTest" time="0.119"/>
+  <testcase name="Testing account pull function" classname="bankSimulator.service.DataHandlerTest" time="0.022"/>
+  <system-out><![CDATA[Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+Rows affected: 1
+]]></system-out>
+  <system-err><![CDATA[SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+]]></system-err>
+</testsuite>

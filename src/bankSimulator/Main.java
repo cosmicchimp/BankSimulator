@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.*;
 import javafx.geometry.Pos;
+
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +43,7 @@ public class Main extends Application {
      * Always shows the "Create First User" screen by default.
      */
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws SQLException {
         System.out.println("Initializing database");
         dataHandler.initDatabase();
         stage.setTitle("Banking Simulator");
@@ -116,7 +118,7 @@ public class Main extends Application {
             }
 
             // Create the first user
-            currentUser = new User(username, password);
+            currentUser = new User(username, password, 0);
             allUsers.add(currentUser);
             System.out.println("First user created: " + username);
 
@@ -165,13 +167,13 @@ public class Main extends Application {
 
         // Handle "Checking Account" button click
         btnChecking.setOnAction(e -> {
-            createAccount(1, lblMsg);
+            createAccount("Checking", "", lblMsg);
             btnContinue.setVisible(true);
         });
 
         // Handle "Savings Account" button click
         btnSavings.setOnAction(e -> {
-            createAccount(2, lblMsg);
+            createAccount("Savings", "", lblMsg);
             btnContinue.setVisible(true);
         });
 
@@ -194,20 +196,19 @@ public class Main extends Application {
      * @param type Account type (1 = Checking, 2 = Savings)
      * @param lblMsg Label to display success message
      */
-    private void createAccount(int type, Label lblMsg) {
+    private void createAccount(String type, String owner, Label lblMsg) {
         // Generate random account ID with a range of the highest int computationally possible
         //to reduce chance of collisions, this could be done easier with SHA, but I'm keeping it simple
         //for right now
-        int id = rand.nextInt(Integer.MAX_VALUE);
 
         // Create the account
-        Account acc = new Account(type, id);
+        Account acc = new Account(type, 1000, owner);
         currentUser.addAccount(acc);
 
         // Display success message
-        String accountType = (type == 1) ? "Checking" : "Savings";
-        System.out.println(accountType + " account created with ID: " + id);
-        lblMsg.setText("Account created! ID: " + id + "\n" + acc.checkAccountInfo());
+        // String accountType = (type == 1) ? "Checking" : "Savings";
+        // System.out.println(accountType + " account created with ID: " + id);
+//        lblMsg.setText("Account created! ID: " + id + "\n" + acc.checkAccountInfo());
     }
 
     // ========================================

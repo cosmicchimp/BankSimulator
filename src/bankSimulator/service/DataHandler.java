@@ -1,22 +1,23 @@
 package bankSimulator.service;
 import bankSimulator.model.Account;
-
-import java.io.PrintWriter;
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.io.BufferedReader;
+import bankSimulator.model.User;
 import java.sql.*;
 public class DataHandler {
+    //database connection helper function
+    public Connection getConn() throws SQLException{
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db");
+        try (Statement stmt = conn.createStatement()) {
+        stmt.execute("PRAGMA foreign_keys = ON");
+        }
+        return conn;
+    }
     //Writing a database initializer function that will create tables if not in existence
-    public void initDatabase() {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db")) {
-            Statement stmt = conn.createStatement();
-            stmt.execute("PRAGMA foreign_keys = ON");
+    public void initDatabase() throws SQLException {
+        try (
+                Connection conn = getConn();
+                Statement stmt = conn.createStatement();
+                ) {
             //Initializing the create user table
-
             String createUserTable = """
                     CREATE TABLE IF NOT EXISTS users (
                     username TEXT PRIMARY KEY,
@@ -53,33 +54,33 @@ public class DataHandler {
                     """;
             stmt.execute(createTransactionTable);
         }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
-    public void insertAccount(Account account) {
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db")) {
-            String sql = "INSERT INTO accounts (accountID, accountType, balance, owner) VALUES (?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1,String.valueOf(account.checkID()));
-            stmt.setString(2,String.valueOf(account.checkAccountType()));
-            stmt.setString(3,String.valueOf(account.checkBalance()));
-            stmt.setString(4,account.checkOwner());
+    public void insertAccount(Account account) throws SQLException {
+        String sql = "INSERT INTO accounts (accountType, balance, owner) VALUES (?, ?, ?)";
+        try (
+                Connection conn = getConn();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1,account.checkAccountType());
+            stmt.setDouble(2, account.checkBalance());
+            stmt.setString(3,account.checkOwner());
             int rowsAffected = stmt.executeUpdate();
             System.out.println("Rows affected: " + rowsAffected);
         }
+    }
 
-        catch (SQLException e) {
-            e.printStackTrace();
+    public void insertUser (User user) throws SQLException {
+        String sql = "INSERT INTO users (username, password, liquid_cash) VALUES (?, ?, ?)";
+        try (
+                Connection conn = getConn();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ) {
+            stmt.setString(1,user.getUsername());
+            stmt.setString(2, user.getPassword());
+            stmt.setDouble(3, user.getLiquidCash());
+            int rowsAffected = stmt.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
         }
-    }
-
-    public void insertUser (String username, String password) {
-
-    }
-    public ArrayList<Account> pullAccounts(String username) {
-        ArrayList<String> accounts
-        return accounts;
     }
 
 }
