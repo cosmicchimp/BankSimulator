@@ -8,7 +8,9 @@ public class Account {
     private String accountType;
     private int accountID;
 
-
+    public void setID(int ID) {
+        this.accountID = ID;
+    }
     //public constructor class
     public Account(String accountType, double balance, String owner) {
         this.accountType = accountType;
@@ -31,25 +33,21 @@ public class Account {
     public String checkAccountInfo() {
         return "The account, ID: " + this.accountID + ", currently has a balance of " + balance + " it is a " + accountType + " account.";
     }
-    public int checkID() {
-        return this.accountID;
-    }
+
     //public method to just check the balance of an account
     public double checkBalance() {
         return balance;
     }
-
+    //Method to check account owner
     public String checkOwner() {
         return this.owner;
     }
     //public method to deposit money into an account from liquid cash
-    public double deposit(double depositAmount) {
+    public void deposit(double depositAmount) {
         this.balance += depositAmount;
-        return this.balance;
     }
-
-    //public method that allows you to transfer amounts in between accounts
-    public double transfer(double transferAmount, int sendingAccount, int receivingAccount) {
-        return 9.9;
+    //method to withdraw amount
+    public void withdraw(double amount) {
+        this.balance -= amount;
     }
 }
