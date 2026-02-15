@@ -1,5 +1,8 @@
 
 package bankSimulator.model;
+import bankSimulator.service.DataConstructor;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {
@@ -29,7 +32,28 @@ public class User {
         }
         return allAccounts;
     }
-
+    //New and improved method for listing all user accounts and their information
+    public void printAccountInfo() {
+        for (Account account : accounts) {
+            System.out.println("Account ID: " + account.checkID());
+            System.out.println("Account Type: " + account.checkAccountType());
+            System.out.println("Account Balance: " + account.checkBalance());
+            System.out.println("-------------------------------");
+        }
+    }
+    //Method to populate accounts stored in the database
+    public void populateAccounts() {
+        try {
+            DataConstructor dc = new DataConstructor();
+            ArrayList<Account> accountList = dc.pullAccounts(this.username);
+            for (Account account : accountList) {
+                addAccount(account);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //Method to check liquid cash
     public double checkLiquid() {
         return this.liquidCash;

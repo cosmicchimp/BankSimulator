@@ -30,6 +30,7 @@ public class DataConstructor {
             //loops through the data set constructing and returning an account for each row
             while (accountData.next()) {
                 Account currentAccount = new Account(accountData.getString("accountType"),accountData.getDouble("balance"), accountData.getString("owner"));
+                currentAccount.setId(accountData.getInt("accountID"));
                 accounts.add(currentAccount);
             }
             //return the array list of accounts
@@ -51,4 +52,20 @@ public class DataConstructor {
             return user;
         }
     }
+    public Account pullAccountByID(int id) throws SQLException {
+        DataConstructor ds = new DataConstructor();
+        try (
+                Connection conn = getConn();
+                PreparedStatement stmt = conn.prepareStatement("SELECT * FROM accounts WHERE accountID = ?")
+            )
+        {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return new Account(rs.getString("accountType"),rs.getInt("balance"), rs.getString("owner"));
+
+        }
+    }
 }
+
+

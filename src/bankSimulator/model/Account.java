@@ -5,7 +5,7 @@ public class Account {
     //basic private values for accounts
     private String owner = "";
     private double balance = 1000;
-    private String accountType;
+    private String accountType = "";
     private int accountID;
 
 
@@ -16,8 +16,12 @@ public class Account {
         this.balance = balance;
     }
 
+    public void setId(int ID) {
+        this.accountID = ID;
+    }
+
     //public method to withdraw amounts from an account and move it to the user liquid balance
-    public double withdraw(int withdrawAmount) {
+    public double withdraw(double withdrawAmount) {
         balance -= withdrawAmount;
         return balance;
     }
@@ -38,10 +42,11 @@ public class Account {
     public double checkBalance() {
         return balance;
     }
-
+    //returns the string value of the owners name
     public String checkOwner() {
         return this.owner;
     }
+
     //public method to deposit money into an account from liquid cash
     public double deposit(double depositAmount) {
         this.balance += depositAmount;
@@ -49,7 +54,7 @@ public class Account {
     }
 
     //public method that allows you to transfer amounts in between accounts
-    public double transfer(double transferAmount, int sendingAccount, int receivingAccount) {
-        return 9.9;
+    public void transfer(int receiverID, double amount) {
+
     }
 }

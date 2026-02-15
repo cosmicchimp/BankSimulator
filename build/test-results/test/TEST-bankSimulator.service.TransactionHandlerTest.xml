@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bankSimulator.service.TransactionHandlerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-15T00:06:59.030Z" hostname="DESKTOP-LJ5G134" time="0.042">
+  <properties/>
+  <testcase name="Testing movement of funds between accounts" classname="bankSimulator.service.TransactionHandlerTest" time="0.042"/>
+  <system-out><![CDATA[Account ID: 2
+Account Type: Savings
+Account Balance: 0.0
+-------------------------------
+Account ID: 7
+Account Type: Savings
+Account Balance: 2400.0
+-------------------------------
+Account ID: 12
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 17
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 22
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 27
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 32
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 37
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 42
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 47
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 52
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 57
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 62
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 67
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 72
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 77
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 82
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 87
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 92
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 97
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 102
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 107
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 112
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 117
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 122
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 127
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 132
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Insufficient funds
+Account ID: 2
+Account Type: Savings
+Account Balance: 0.0
+-------------------------------
+Account ID: 7
+Account Type: Savings
+Account Balance: 2400.0
+-------------------------------
+Account ID: 12
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 17
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 22
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 27
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 32
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 37
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 42
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 47
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 52
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 57
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 62
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 67
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 72
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 77
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 82
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 87
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 92
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 97
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 102
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 107
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 112
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 117
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 122
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 127
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 132
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 2
+Account Type: Savings
+Account Balance: 0.0
+-------------------------------
+Account ID: 7
+Account Type: Savings
+Account Balance: 2400.0
+-------------------------------
+Account ID: 12
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 17
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 22
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 27
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 32
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 37
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 42
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 47
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 52
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 57
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 62
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 67
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 72
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 77
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 82
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 87
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 92
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 97
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 102
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 107
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 112
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 117
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 122
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 127
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+Account ID: 132
+Account Type: Savings
+Account Balance: 1200.0
+-------------------------------
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

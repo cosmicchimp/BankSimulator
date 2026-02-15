@@ -2,7 +2,9 @@ package bankSimulator.service;
 import bankSimulator.model.Account;
 import bankSimulator.model.User;
 import java.sql.*;
+import java.util.*;
 public class DataHandler {
+
     //database connection helper function
     public Connection getConn() throws SQLException{
         Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db");
@@ -11,7 +13,8 @@ public class DataHandler {
         }
         return conn;
     }
-    //Writing a database initializer function that will create tables if not in existence
+
+    //Database initializer function that will create tables if not in existence
     public void initDatabase() throws SQLException {
         try (
                 Connection conn = getConn();
@@ -55,6 +58,8 @@ public class DataHandler {
             stmt.execute(createTransactionTable);
         }
     }
+
+    //Function for inserting accounts into the database
     public void insertAccount(Account account) throws SQLException {
         String sql = "INSERT INTO accounts (accountType, balance, owner) VALUES (?, ?, ?)";
         try (
@@ -69,6 +74,7 @@ public class DataHandler {
         }
     }
 
+    //Function for inserting users in the database
     public void insertUser (User user) throws SQLException {
         String sql = "INSERT INTO users (username, password, liquid_cash) VALUES (?, ?, ?)";
         try (
@@ -83,4 +89,59 @@ public class DataHandler {
         }
     }
 
+    //Method for locating, constructing, and adding all accounts to an arraylist which is used
+    //by the user model
+    public ArrayList<Account> populateAccounts(String owner) throws SQLException {
+        String sql = "SELECT * FROM accounts WHERE owner = ?";
+        ArrayList<Account> accounts = new ArrayList<>();
+        DataConstructor dc = new DataConstructor();
+        try (
+                Connection conn = getConn();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                )
+        {
+            stmt.setString(1, owner);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int accountID = rs.getInt("accountID");
+                accounts.add(dc.pullAccountByID(accountID));
+            }
+            return accounts;
+        }
+    }
+
+    //Method for updating the values of account balances in the database
+    public void updateAccountBalance(int accountID, double balance) throws SQLException {
+        try (
+                Connection conn = getConn();
+                PreparedStatement stmt = conn.prepareStatement("UPDATE accounts SET balance = ? WHERE accountID = ?");
+                ) {
+                    stmt.setDouble(1, balance);
+                    stmt.setInt(2, accountID);
+                    stmt.executeUpdate();
+        }
+    }
+
+    //Function that deletes and closes an account if the balance sits at 0, otherwise return false
+    public boolean closeAccount(int accountID) throws SQLException {
+        String sql = "DELETE FROM accounts WHERE accountID = ?";
+        DataConstructor dc = new DataConstructor();
+        try (
+                Connection conn = getConn();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                )
+        {
+            Account account = dc.pullAccountByID(accountID);
+            stmt.setInt(1, accountID);
+            if (account.checkBalance() == 0) {
+                stmt.executeUpdate();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    
 }

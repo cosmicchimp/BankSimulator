@@ -70,7 +70,7 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\BankSimulator.jar;%APP_HOME%\lib\javafx-controls-19-win.jar;%APP_HOME%\lib\javafx-graphics-19-win.jar;%APP_HOME%\lib\javafx-graphics-19.jar;%APP_HOME%\lib\javafx-base-19-win.jar;%APP_HOME%\lib\javafx-base-19.jar
+set CLASSPATH=%APP_HOME%\lib\BankSimulator.jar;%APP_HOME%\lib\sqlite-jdbc-3.45.0.0.jar;%APP_HOME%\lib\bcrypt-0.10.2.jar;%APP_HOME%\lib\javafx-controls-19-win.jar;%APP_HOME%\lib\javafx-graphics-19-win.jar;%APP_HOME%\lib\javafx-graphics-19.jar;%APP_HOME%\lib\javafx-base-19-win.jar;%APP_HOME%\lib\javafx-base-19.jar;%APP_HOME%\lib\slf4j-api-1.7.36.jar;%APP_HOME%\lib\bytes-1.5.0.jar
 
 
 @rem Execute BankSimulator
