@@ -1,283 +1,201 @@
 package bankSimulator;
-import bankSimulator.service.DataHandler;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.*;
-import javafx.geometry.Pos;
-
 import java.sql.SQLException;
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.Arrays;
 import bankSimulator.model.Account;
 import bankSimulator.model.User;
 import bankSimulator.service.DataHandler;
+import bankSimulator.service.MessageSender;
+import org.w3c.dom.ls.LSOutput;
+
+import javax.xml.crypto.Data;
+import java.util.*;
 /**
  * Main application class for the Banking Simulator.
  * Handles the JavaFX UI and navigation between different screens.
  */
-public class Main extends Application {
-    //Init of database and its tables
-    DataHandler dataHandler = new DataHandler();
-    // ========================================
-    // INSTANCE VARIABLES
-    // ========================================
 
-    /** Currently logged-in user */
-    private User currentUser;
-
-    /** Random number generator for account IDs */
-    private Random rand = new Random();
-
-    /** List of all registered users (in-memory for now) */
-    private ArrayList<User> allUsers = new ArrayList<>();
-
-    // ========================================
-    // APPLICATION ENTRY POINT
-    // ========================================
-
-    /**
-     * JavaFX start method - called when application launches.
-     * Always shows the "Create First User" screen by default.
-     */
-    @Override
-    public void start(Stage stage) throws SQLException {
-        System.out.println("Initializing database");
-        dataHandler.initDatabase();
-        stage.setTitle("Banking Simulator");
-        System.out.println(">>>>> APPLICATION STARTED - SHOWING CREATE USER SCREEN <<<<<");
-        showCreateFirstUser(stage);
+public class Main {
+    public User currentUser = null;
+    public static void main(String[] args) throws Exception {
+        Main app = new Main();
+        app.run();
     }
-
-    // ========================================
-    // SCREEN: CREATE FIRST USER
-    // ========================================
-
-    /**
-     * Shows the "Create First User" screen.
-     * This is the default starting screen.
-     *
-     * @param stage The main application stage
-     */
-    private void showCreateFirstUser(Stage stage) {
-        System.out.println("Rendering: Create First User screen");
-
-        // Create UI components
-        Label lblTitle = new Label("Welcome! Create your first user account");
-        lblTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-
-        Label userExists = new Label("");
-        Label lblUser = new Label("Enter username:");
-        TextField tfUser = new TextField();
-        tfUser.setPromptText("Username");
-
-        Label lblPass = new Label("Enter password:");
-        PasswordField pfPass = new PasswordField();
-        pfPass.setPromptText("Password");
-
-        Label lblConfirm = new Label("Confirm password:");
-        PasswordField pfConfirm = new PasswordField();
-        pfConfirm.setPromptText("Confirm password");
-
-        Label lblMsg = new Label();
-        lblMsg.setStyle("-fx-text-fill: red;");
-
-        Button btnCreate = new Button("Create First User");
-        Button btnCheck = new Button("Check for username");
-
-        // Layout all components in a vertical box
-        VBox root = new VBox(10, lblTitle, userExists,lblUser, tfUser, lblPass, pfPass,
-                lblConfirm, pfConfirm, btnCreate,btnCheck, lblMsg);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-padding: 20;");
-
-        // Handle "Create First User" button click
-        btnCheck.setOnAction(e -> {
-            System.out.println("Blank button event");});
-        btnCreate.setOnAction(e -> {
-            String username = tfUser.getText().trim();
-            String password = pfPass.getText();
-            String confirm = pfConfirm.getText();
-
-            // Validate inputs
-            if (username.isEmpty()) {
-                lblMsg.setText("Username cannot be empty!");
-                return;
+    private void run() throws Exception {
+        DataHandler dh = new DataHandler();
+        dh.initDatabase();
+        System.out.println("Database initialized...");
+        try (
+                Scanner scanner = new Scanner(System.in);
+        ) {
+            System.out.println("Banking Application CLI has begun: \n");
+            System.out.println("""
+            Welcome to my Java Bank Application
+            -----------------------------------
+            Type 'help' for a list of commands 
+            -----------------------------------
+            You can create accounts, transfer
+            funds, and communicate with other
+            users!
+            -----------------------------------
+            """);
+            while (true) {
+                String command = scanner.nextLine();
+                if (command.equals("end")) {
+                    break;
+                }
+                readCmd(command, scanner);
             }
 
-            if (password.isEmpty()) {
-                lblMsg.setText("Password cannot be empty!");
-                return;
-            }
-
-            if (!password.equals(confirm)) {
-                lblMsg.setText("Passwords do not match!");
-                return;
-            }
-
-            // Create the first user
-            currentUser = new User(username, password, 0);
-            allUsers.add(currentUser);
-            System.out.println("First user created: " + username);
-
-            // Navigate to account type selection
-            showAccountType(stage);
-        });
-
-        // Set the scene and display it
-        Scene scene = new Scene(root, 700, 500);
-        stage.setScene(scene);
-        stage.show();
+        }
     }
-
-    // ========================================
-    // SCREEN: ACCOUNT TYPE SELECTION
-    // ========================================
-
-    /**
-     * Shows the account type selection screen.
-     * Allows user to choose between Checking or Savings account.
-     *
-     * @param stage The main application stage
-     */
-    private void showAccountType(Stage stage) {
-        System.out.println("Rendering: Account Type Selection screen");
-
-        // Create UI components
-        Label lblTitle = new Label("Select Account Type");
-        lblTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-
-        Label lblType = new Label("What type of account would you like to create?");
-
-        Button btnChecking = new Button("Checking Account");
-        Button btnSavings = new Button("Savings Account");
-
-        Label lblMsg = new Label();
-        lblMsg.setStyle("-fx-text-fill: green;");
-
-        Button btnContinue = new Button("Continue to Dashboard");
-        btnContinue.setVisible(false); // Hidden until account is created
-
-        // Layout components
-        VBox root = new VBox(10, lblTitle, lblType, btnChecking, btnSavings, lblMsg, btnContinue);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-padding: 20;");
-
-        // Handle "Checking Account" button click
-        btnChecking.setOnAction(e -> {
-            createAccount("Checking", "", lblMsg);
-            btnContinue.setVisible(true);
-        });
-
-        // Handle "Savings Account" button click
-        btnSavings.setOnAction(e -> {
-            createAccount("Savings", "", lblMsg);
-            btnContinue.setVisible(true);
-        });
-
-        // Handle "Continue to Dashboard" button click
-        btnContinue.setOnAction(e -> {
-            showDashboard(stage);
-        });
-
-        // Set the scene and display it
-        stage.setScene(new Scene(root, 700, 500));
+    private void readCmd(String cmd, Scanner scanner) throws Exception {
+        if (cmd.equals("help")) {
+            help();
+        }
+        if (cmd.equals("create-u")) {
+            createUser(scanner);
+        }
+        if (cmd.equals("login")) {
+            login(scanner);
+        }
+        if (cmd.equals("create-a")) {
+            createAccount(scanner);
+        }
+        if (cmd.equals("list-u")) {
+            listUsers();
+        }
+        if (cmd.equals("msg")) {
+            sendMessage(scanner);
+        }
     }
-
-    // ========================================
-    // HELPER: CREATE ACCOUNT
-    // ========================================
-
-    /**
-     * Creates a new bank account for the current user.
-     *
-     * @param type Account type (1 = Checking, 2 = Savings)
-     * @param lblMsg Label to display success message
-     */
-    private void createAccount(String type, String owner, Label lblMsg) {
-        // Generate random account ID with a range of the highest int computationally possible
-        //to reduce chance of collisions, this could be done easier with SHA, but I'm keeping it simple
-        //for right now
-
-        // Create the account
-        Account acc = new Account(type, 1000, owner);
-        currentUser.addAccount(acc);
-
-        // Display success message
-        // String accountType = (type == 1) ? "Checking" : "Savings";
-        // System.out.println(accountType + " account created with ID: " + id);
-//        lblMsg.setText("Account created! ID: " + id + "\n" + acc.checkAccountInfo());
+    private void help() {
+        System.out.println("""
+            1. Type 'end' to terminate session 
+            2. Type 'create-u' to create a user and its log in info 
+            3. Type 'login' to prompt a username and password login
+            4. Once logged in you can use 'create-a' to create an account 
+            5. Type 'list-u' to see a list of users 
+            6. Type 'msg' to send a message to a users inbox
+            7. Type 'inbox' to check your inbox for messages
+            8. Type 'balances' to view your accounts and their balances
+            9. Type 'transfer' to initiate a transfer of funds, either between your accounts or another users account
+            10. Type 'close' to close an account, however it must be sitting at a 0 balance
+            """);
     }
-
-    // ========================================
-    // SCREEN: DASHBOARD
-    // ========================================
-
-    /**
-     * Shows the main dashboard.
-     * Displays user's accounts and provides navigation options.
-     *
-     * @param stage The main application stage
-     */
-    private void showDashboard(Stage stage) {
-        System.out.println("Rendering: Dashboard screen");
-
-        // Create UI components
-        Label lblWelcome = new Label("Welcome to Your Dashboard!");
-        lblWelcome.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-
-        // Display user's accounts
-        Label lblAccounts = new Label("Your Accounts:");
-        TextArea taAccounts = new TextArea();
-        taAccounts.setEditable(false);
-        taAccounts.setPrefHeight(200);
-
-        // Get and display all accounts
-        ArrayList<String> accountList = currentUser.listAccount();
-        if (accountList.isEmpty()) {
-            taAccounts.setText("No accounts yet. Create one from the menu!");
-        } else {
-            StringBuilder sb = new StringBuilder();
-            for (String accountInfo : accountList) {
-                sb.append(accountInfo).append("\n\n");
+    private void createUser(Scanner scanner) throws SQLException {
+        DataHandler dh = new DataHandler();
+        System.out.println("Choose a username");
+        String username = "";
+        while (true) {
+            username = scanner.nextLine();
+            if ((dh.checkUsername(username))) {
+                System.out.println("Username chosen: " + username);
+                break;
+            } else {
+                System.out.println("Username is already taken please choose a different name");
             }
-            taAccounts.setText(sb.toString());
+        }
+        System.out.println("Please choose your password:");
+        while (true) {
+            String password = scanner.nextLine();
+            if (password.length() >= 8) {
+                User newUser = new User(username, password, 0);
+                dh.insertUser(newUser);
+                break;
+            }
+            System.out.println("""
+                    Password does not meet length requirements Please choose a new password:
+            """);
         }
 
-        // Display liquid cash
-        Label lblCash = new Label("Liquid Cash: $" +
-                String.format("%.2f", currentUser.checkLiquid()));
-        lblCash.setStyle("-fx-font-size: 14px;");
-
-        Button btnAddAccount = new Button("Add New Account");
-
-        // Layout components
-        VBox root = new VBox(15, lblWelcome, lblAccounts, taAccounts, lblCash, btnAddAccount);
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-padding: 20;");
-
-        // Handle "Add New Account" button click
-        btnAddAccount.setOnAction(e -> {
-            showAccountType(stage);
-        });
-
-        // Set the scene and display it
-        Scene scene = new Scene(root, 700, 500);
-        stage.setScene(scene);
-        stage.show();
     }
+    public void login(Scanner scanner) throws SQLException {
+        System.out.println("Please enter your username: ");
+        DataHandler dh = new DataHandler();
+        while (true) {
+            String username = scanner.nextLine();
+            if (dh.checkUsername(username)) {
+                System.out.printf("User does not exist");
+                continue;
+            }
+            System.out.printf("Please enter your password: ");
+            String password = scanner.nextLine();
+            if (dh.checkLogin(username, password)) {
+                System.out.println("You are now logged in as " + username);
+                currentUser = new User(username, password, 0);
+                break;
+            }
+            else {
+                System.out.println("Incorrect password");
+            }
+        }
+    }
+    public void createAccount(Scanner scanner) throws SQLException {
+        if (currentUser == null){
+            System.out.println("You must log in before creating an account");
+            return;
+        }
+        DataHandler dh = new DataHandler();
+        String accountType;
+        String accountName;
+        double balance;
+        System.out.println("Please choose a name for your account");
+        accountName = scanner.nextLine();
+        System.out.println("""
+                Please choose your account type [1,2,3]: 
+                (1) - Checking
+                (2) - Savings
+                (3) - HYSA (High Yield Savings Accounts)""");
+        while (true) {
+            accountType = scanner.nextLine();
+            if (List.of("1", "2", "3").contains(accountType)) {
+                break;
+            }
+            System.out.println("Invalid account type chosen, please choose again");
+        }
+        System.out.println("Choose a starting balance for your account [$1 - $9999]");
+        while (true) {
+            balance = scanner.nextDouble();
+            if (balance >= 1 && balance <= 9999) {
+                System.out.println("Account created successfuly");
+                Account newAccount = new Account(typeReader(accountType), balance, currentUser.getUsername(), accountName);
+                dh.insertAccount(newAccount);
+                currentUser.addAccount(newAccount);
+                break;
+            }
+            System.out.println("Invalid value chosen, please choose again");
+        }
 
-    // ========================================
-    // MAIN METHOD
-    // ========================================
-
-    /**
-     * Application entry point.
-     * Launches the JavaFX application.
-     */
-    public static void main(String[] args) {
-        launch(args);
+    }
+    public void listUsers() throws SQLException {
+        System.out.println("List of users:");
+        DataHandler dh = new DataHandler();
+        ArrayList<User> users = dh.pullUsers();
+        for (User user : users) {
+            System.out.println(user.getUsername());
+        }
+    }
+    public void sendMessage(Scanner scanner) throws SQLException {
+        System.out.println("Please enter the username of the person you would like to message: ");
+        String receiver = scanner.nextLine();
+        System.out.println("Enter your message: ");
+        String message = scanner.nextLine();
+        MessageSender ms = new MessageSender();
+        User sender = currentUser;
+        ms.initConvo(sender.getUsername(), receiver);
+        ms.sendMessage(sender, receiver, message);
+        System.out.println("Message sent!");
+    }
+    public String typeReader(String value) {
+        String type = "";
+        if (value.equals("1")) {
+            type = "Checking";
+        }
+        if (value.equals("2")) {
+            type = "Savings";
+        }
+        if (value.equals("3")) {
+            type = "HYSA";
+        }
+        return type;
     }
 }

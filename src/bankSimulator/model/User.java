@@ -21,6 +21,7 @@ public class User {
     public String addAccount(Account accountToAdd) {
         accounts.add(accountToAdd);
         return "Account successfully added!";
+
     }
 
     //Method to return a list of all user accounts and their balances

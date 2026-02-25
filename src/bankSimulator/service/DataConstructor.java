@@ -29,7 +29,7 @@ public class DataConstructor {
             ResultSet accountData = stmt.executeQuery();
             //loops through the data set constructing and returning an account for each row
             while (accountData.next()) {
-                Account currentAccount = new Account(accountData.getString("accountType"),accountData.getDouble("balance"), accountData.getString("owner"));
+                Account currentAccount = new Account(accountData.getString("accountType"),accountData.getDouble("balance"), accountData.getString("owner"), accountData.getString("accountName"));
                 currentAccount.setId(accountData.getInt("accountID"));
                 accounts.add(currentAccount);
             }
@@ -62,7 +62,7 @@ public class DataConstructor {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            return new Account(rs.getString("accountType"),rs.getInt("balance"), rs.getString("owner"));
+            return new Account(rs.getString("accountType"),rs.getInt("balance"), rs.getString("owner"), rs.getString("accountName"));
 
         }
     }

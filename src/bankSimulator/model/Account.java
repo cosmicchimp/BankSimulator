@@ -7,15 +7,23 @@ public class Account {
     private double balance = 1000;
     private String accountType = "";
     private int accountID;
+    private String accountName;
 
 
     //public constructor class
-    public Account(String accountType, double balance, String owner) {
+    public Account(String accountType, double balance, String owner, String accountName) {
+        this.accountType = accountType;
+        this.owner = owner;
+        this.balance = balance;
+        this.accountName = accountName;
+    }
+    //public constructor class
+    public Account(int ID, String accountType, double balance, String owner) {
+        this.accountID = ID;
         this.accountType = accountType;
         this.owner = owner;
         this.balance = balance;
     }
-
     public void setId(int ID) {
         this.accountID = ID;
     }
@@ -46,6 +54,8 @@ public class Account {
     public String checkOwner() {
         return this.owner;
     }
+
+    public String checkName() {return this.accountName;}
 
     //public method to deposit money into an account from liquid cash
     public double deposit(double depositAmount) {
