@@ -1,8 +1,7 @@
 
-package bankSimulator.model;
-import bankSimulator.service.DataConstructor;
+package com.lambert.banksimulator.model;
+import com.lambert.banksimulator.service.DataConstructor;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {

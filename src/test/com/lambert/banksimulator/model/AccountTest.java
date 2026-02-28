@@ -1,8 +1,4 @@
-package bankSimulator.model;
-import java.util.ArrayList;
-import bankSimulator.model.User;
-import bankSimulator.service.DataHandler;
-import bankSimulator.service.DataConstructor;
+package com.lambert.banksimulator.model;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

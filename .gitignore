@@ -1,0 +1,43 @@
+# Compiled class files
+*.class
+data/
+# JAR/WAR/EAR files
+*.jar
+*.war
+*.ear
+
+# Build directories
+target/
+build/
+out/
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.eclipse
+.classpath
+.project
+.settings/
+*.launch
+
+# Maven
+.mvn/
+mvn.cmd
+
+# Gradle
+.gradle/
+gradle-wrapper.jar
+
+# Logs
+*.log
+logs/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env

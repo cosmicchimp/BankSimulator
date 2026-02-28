@@ -1,8 +1,7 @@
-package bankSimulator.service;
+package com.lambert.banksimulator.service;
 
-import bankSimulator.model.Account;
-import bankSimulator.model.User;
-import org.junit.jupiter.api.BeforeEach;
+import com.lambert.banksimulator.model.Account;
+import com.lambert.banksimulator.model.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

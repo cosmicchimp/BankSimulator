@@ -1,6 +1,8 @@
-package bankSimulator.service;
+package com.lambert.banksimulator.service;
 import bankSimulator.service.*;
 import bankSimulator.model.*;
+import com.lambert.banksimulator.model.Account;
+
 import java.sql.SQLException;
 
 public class TransactionHandler {

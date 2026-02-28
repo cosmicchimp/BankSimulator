@@ -1,4 +1,4 @@
-package bankSimulator.exceptions;
+package com.lambert.banksimulator.exceptions;
 
 public class AccountException extends Exception {
     public AccountException() {

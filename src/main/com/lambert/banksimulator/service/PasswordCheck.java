@@ -1,4 +1,4 @@
-package bankSimulator.service;
+package com.lambert.banksimulator.service;
 
 public class PasswordCheck {
     private String passwordInput;

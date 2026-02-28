@@ -1,6 +1,6 @@
-package bankSimulator.service;
-import bankSimulator.model.Account;
-import bankSimulator.model.User;
+package com.lambert.banksimulator.service;
+import com.lambert.banksimulator.model.Account;
+import com.lambert.banksimulator.model.User;
 import java.sql.*;
 import java.util.*;
 

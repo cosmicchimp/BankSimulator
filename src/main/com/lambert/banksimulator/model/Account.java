@@ -1,4 +1,4 @@
-package bankSimulator.model;
+package com.lambert.banksimulator.model;
 
 public class Account {
 

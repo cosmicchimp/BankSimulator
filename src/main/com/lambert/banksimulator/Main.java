@@ -1,12 +1,10 @@
-package bankSimulator;
+package com.lambert.banksimulator;
 import java.sql.SQLException;
-import bankSimulator.model.Account;
-import bankSimulator.model.User;
-import bankSimulator.service.DataHandler;
-import bankSimulator.service.MessageSender;
-import org.w3c.dom.ls.LSOutput;
+import com.lambert.banksimulator.model.Account;
+import com.lambert.banksimulator.model.User;
+import com.lambert.banksimulator.service.DataHandler;
+import com.lambert.banksimulator.service.MessageSender;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 /**
  * Main application class for the Banking Simulator.
