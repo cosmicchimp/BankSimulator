@@ -1,28 +1,19 @@
-package com.lambert.banksimulator.service;
-import com.lambert.banksimulator.model.*;
+package com.lambert.banksimulator.dao;
 import com.lambert.banksimulator.model.User;
-
+import com.lambert.banksimulator.util.DatabaseConnection;
 import java.sql.*;
 
-public class MessageSender {
-    //database connection helper function
-    public Connection getConn() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db");
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute("PRAGMA foreign_keys = ON");
-        }
-        return conn;
-    }
+public class MessageDAO {
     //Function to initiate conversation and log the interaction within the conversation table
     public void initConvo(String sender, String receiver) throws SQLException {
         String sql = "INSERT INTO conversations (initiator, receiver) VALUES (?, ?)";
         try (
-                Connection conn = getConn();
+                Connection conn = DatabaseConnection.getConn();
                 PreparedStatement stmt = conn.prepareStatement(sql)
-                ) {
-                stmt.setString(1, sender);
-                stmt.setString(2, receiver);
-                stmt.executeUpdate();
+        ) {
+            stmt.setString(1, sender);
+            stmt.setString(2, receiver);
+            stmt.executeUpdate();
         }
     }
     //Function for sending messages to users inbox, persisting via database
@@ -30,9 +21,9 @@ public class MessageSender {
         String sql = "INSERT into messages (conversationID, message, sender, receiver) VALUES (?,?,?,?)";
         try
                 (
-                Connection conn = getConn();
-                PreparedStatement stmt = conn.prepareStatement(sql)
-        ) {
+                        Connection conn = DatabaseConnection.getConn();
+                        PreparedStatement stmt = conn.prepareStatement(sql)
+                ) {
             int convoID = findConversation(sender.getUsername(), receiver);
             stmt.setInt(1, convoID);
             stmt.setString(2, message);
@@ -45,7 +36,7 @@ public class MessageSender {
     public int findConversation(String sender, String receiver) throws SQLException {
         String sql = "SELECT conversationID FROM conversations WHERE initiator = ? AND receiver = ?";
         try (
-                Connection conn = getConn();
+                Connection conn = DatabaseConnection.getConn();
                 PreparedStatement stmt = conn.prepareStatement(sql)
         )
         {

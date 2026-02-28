@@ -1,24 +1,16 @@
-package com.lambert.banksimulator.service;
+package com.lambert.banksimulator.dao;
 import com.lambert.banksimulator.model.Account;
 import com.lambert.banksimulator.model.User;
 import java.sql.*;
 import java.util.*;
+import com.lambert.banksimulator.util.DatabaseConnection;
 
 public class DataHandler {
-
-    //database connection helper function
-    public Connection getConn() throws SQLException {
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:bank.db");
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute("PRAGMA foreign_keys = ON");
-        }
-        return conn;
-    }
 
     //Database initializer function that will create tables if not in existence
     public void initDatabase() throws SQLException {
         try (
-                Connection conn = getConn(); Statement stmt = conn.createStatement();
+                Connection conn = DatabaseConnection.getConn(); Statement stmt = conn.createStatement();
         ) {
             //Initializing the create user table
             String createUserTable = """
@@ -87,7 +79,7 @@ public class DataHandler {
     public void insertAccount(Account account) throws SQLException {
         String sql = "INSERT INTO accounts (accountType, balance, owner, accountName) VALUES (?, ?, ?, ?)";
         try (
-                Connection conn = getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
+                Connection conn = DatabaseConnection.getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setString(1, account.checkAccountType());
             stmt.setDouble(2, account.checkBalance());
@@ -101,7 +93,7 @@ public class DataHandler {
     public boolean checkUsername(String username) throws SQLException {
         String sql = "SELECT 1 FROM users where LOWER(username) = LOWER(?)";
         try (
-                Connection conn = getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
+                Connection conn = DatabaseConnection.getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -113,7 +105,7 @@ public class DataHandler {
     public void insertUser(User user) throws SQLException {
         String sql = "INSERT INTO users (username, password, liquid_cash) VALUES (?, ?, ?)";
         try (
-                Connection conn = getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
+                Connection conn = DatabaseConnection.getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
@@ -130,7 +122,7 @@ public class DataHandler {
         ArrayList < Account > accounts = new ArrayList < > ();
         DataConstructor dc = new DataConstructor();
         try (
-                Connection conn = getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
+                Connection conn = DatabaseConnection.getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setString(1, owner);
             ResultSet rs = stmt.executeQuery();
@@ -145,7 +137,7 @@ public class DataHandler {
     //Method for updating the values of account balances in the database
     public void updateAccountBalance(int accountID, double balance) throws SQLException {
         try (
-                Connection conn = getConn(); PreparedStatement stmt = conn.prepareStatement("UPDATE accounts SET balance = ? WHERE accountID = ?");
+                Connection conn = DatabaseConnection.getConn(); PreparedStatement stmt = conn.prepareStatement("UPDATE accounts SET balance = ? WHERE accountID = ?");
         ) {
             stmt.setDouble(1, balance);
             stmt.setInt(2, accountID);
@@ -158,7 +150,7 @@ public class DataHandler {
         String sql = "DELETE FROM accounts WHERE accountID = ?";
         DataConstructor dc = new DataConstructor();
         try (
-                Connection conn = getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
+                Connection conn = DatabaseConnection.getConn(); PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             Account account = dc.pullAccountByID(accountID);
             stmt.setInt(1, accountID);
@@ -173,7 +165,7 @@ public class DataHandler {
     public boolean checkLogin(String username, String password) throws SQLException{
         String sql = "SELECT 1 FROM users WHERE username = ? AND password = ?";
         try (
-                Connection conn = getConn();
+                Connection conn = DatabaseConnection.getConn();
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setString(1, username);
@@ -187,7 +179,7 @@ public class DataHandler {
         String sql = "SELECT * FROM users";
         ArrayList<User> users = new ArrayList<>();
         try (
-                 Connection conn = getConn();
+                 Connection conn = DatabaseConnection.getConn();
                  PreparedStatement stmt = conn.prepareStatement(sql)
                 ) {
             ResultSet rs = stmt.executeQuery();

@@ -1,7 +1,5 @@
 package com.lambert.banksimulator.service;
-import bankSimulator.service.*;
-import bankSimulator.model.*;
-import com.lambert.banksimulator.model.Account;
+import com.lambert.banksimulator.model.*;
 
 import java.sql.SQLException;
 

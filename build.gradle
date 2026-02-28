@@ -12,6 +12,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.xerial:sqlite-jdbc:3.45.0.0'
     implementation 'at.favre.lib:bcrypt:0.10.2'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
 }
 
 java {
@@ -27,18 +28,18 @@ javafx {
 sourceSets {
     main {
         java {
-            srcDirs = ['src']
+            srcDirs = ['src/main']
         }
     }
     test {
         java {
-            srcDirs = ['test']
+            srcDirs = ['src/test']
         }
     }
 }
 
 application {
-    mainClass = 'bankSimulator.Main'
+    mainClass = 'com.lambert.banksimulator.Main'
 }
 
 tasks.named('run') {
