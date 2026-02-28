@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bankSimulator.model.AccountTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-02-15T00:06:58.836Z" hostname="DESKTOP-LJ5G134" time="0.017">
-  <properties/>
-  <testcase name="Check account info method returns correct string" classname="bankSimulator.model.AccountTest" time="0.017"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
